@@ -1,0 +1,32 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,body{
+    height: 100%;
+}
+
+#__next {
+    height: 100% !important;
+}
+
+.ant-layout{
+    min-height: 100% !important;
+}
+
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused {
+  border-color: whitesmoke !important;
+}
+
+.ant-menu {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.ant-pagination {
+    display: flex !important;
+    justify-content: center !important; 
+}
