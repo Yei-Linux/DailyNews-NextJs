@@ -2,33 +2,28 @@ import React, { useEffect, useState, Fragment } from "react";
 import { List, Pagination } from "antd";
 import { useLazyQuery } from "@apollo/client";
 
-import NewsRow from "../NewsRow/NewsRow";
-import { QUERY_GET_NEWS } from "../../graphql/schemas/NewsSchemas";
-import { QUERY_GET_TOTAL_ROWS_OF_DOCUMENT } from "../../graphql/schemas/DynamicSchema";
+import ListRow from "../ListRow/ListRow";
 
-const NewsTable = () => {
-  const PAGE_SIZE = 5;
-  const MODEL = "New";
-
+const ListTable = ({ pageSize, model, queryTotalRows, queryGetRows, nameQuery }) => {
   const [pageState,setPageState] = useState(1);
   const [
     getTotalRowsState,
     { data: dataRows, loading: loadingRows, error: errorRows }
-  ] = useLazyQuery(QUERY_GET_TOTAL_ROWS_OF_DOCUMENT);
-  const [getNews, { data, loading, error }] = useLazyQuery(QUERY_GET_NEWS);
+  ] = useLazyQuery(queryTotalRows);
+  const [getRows, { data, loading, error }] = useLazyQuery(queryGetRows);
 
   useEffect(() => {
-    handleGetTotalRows(MODEL);
-    handleGetNews(1, PAGE_SIZE);
+    handleGetTotalRows(model);
+    handleGetRows(1, pageSize);
   }, []);
 
   const handlePagination = page => {
-    handleGetNews(page, PAGE_SIZE);
-    loading && setPageState(page);
+    handleGetRows(page, pageSize);
+    setPageState(page);
   };
 
-  const handleGetNews = (page, limit) => {
-    getNews({ variables: { input: { page, limit } } });
+  const handleGetRows = (page, limit) => {
+    getRows({ variables: { input: { page, limit } } });
   };
 
   const handleGetTotalRows = model => {
@@ -42,12 +37,12 @@ const NewsTable = () => {
           <List
             itemLayout="vertical"
             size="large"
-            dataSource={data["getNews"]}
-            renderItem={newItem => <NewsRow newItem={newItem} />}
+            dataSource={data[nameQuery]}
+            renderItem={item => <ListRow item={item} />}
           />
           <Pagination
             defaultCurrent={pageState}
-            defaultPageSize={PAGE_SIZE}
+            defaultPageSize={pageSize}
             onChange={handlePagination}
             total={dataRows["getTotalRows"]["size"]}
           />
@@ -57,4 +52,4 @@ const NewsTable = () => {
   );
 };
 
-export default NewsTable;
+export default ListTable;
