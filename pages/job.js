@@ -16,6 +16,7 @@ const Job = () => {
                 queryTotalRows={QUERY_GET_TOTAL_ROWS_OF_DOCUMENT}
                 queryGetRows={QUERY_GET_JOBS}
                 nameQuery={"getJobs"}
+                itemType={"card"}
                 />
             </div>
         </MainLayout>

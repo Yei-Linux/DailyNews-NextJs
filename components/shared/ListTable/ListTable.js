@@ -4,9 +4,9 @@ import { useLazyQuery } from "@apollo/client";
 
 import ListRow from "../ListRow/ListRow";
 
-const ListTable = ({ pageSize, model, queryTotalRows, queryGetRows, nameQuery }) => {
+const ListTable = ({ pageSize, model, queryTotalRows, queryGetRows, nameQuery, itemType }) => {
   const [pageState,setPageState] = useState(1);
-  const [
+  const [ 
     getTotalRowsState,
     { data: dataRows, loading: loadingRows, error: errorRows }
   ] = useLazyQuery(queryTotalRows);
@@ -38,7 +38,7 @@ const ListTable = ({ pageSize, model, queryTotalRows, queryGetRows, nameQuery })
             itemLayout="vertical"
             size="large"
             dataSource={data[nameQuery]}
-            renderItem={item => <ListRow item={item} />}
+            renderItem={item => <ListRow item={item} itemType={itemType}/>}
           />
           <Pagination
             defaultCurrent={pageState}

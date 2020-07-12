@@ -14,6 +14,7 @@ export default function Home() {
           queryTotalRows={QUERY_GET_TOTAL_ROWS_OF_DOCUMENT}
           queryGetRows={QUERY_GET_NEWS}
           nameQuery={"getNews"}
+          itemType={"card"}
         />
       </div>
     </MainLayout>
