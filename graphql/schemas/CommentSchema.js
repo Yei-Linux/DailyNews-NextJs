@@ -16,3 +16,20 @@ export const QUERY_GET_QUESTIONS = gql`
     }
   }
 `;
+
+export const QUERY_GET_PARENT_TREE_QUESTIONS = gql`
+  query getTreeCommentsByQuestionId($input: SearchInput) {
+    getTreeCommentsByQuestionId(input: $input) {
+      _id
+      comment
+      description
+      user {
+        email
+        userName
+      }
+      createdAt
+      parent
+      numberComments
+    }
+  }
+`;

@@ -1,24 +1,38 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html,body{
-    height: 100%;
-}
-
-.listContainer {
-    width: 60%;
-    margin: auto;
+html,
+body {
+  height: 100%;
 }
 
 #__next {
-    height: 100% !important;
+  height: 100% !important;
 }
 
-.ant-layout{
-    min-height: 100% !important;
+.listContainer {
+  width: 60%;
+  margin: auto;
+}
+
+.questionThreadPageContainer {
+  margin: auto;
+  display: flex;
+  width: 60%;
+
+  .questionThread {
+    width: 65%;
+  }
+  .relatedQuestion {
+    width: 25%;
+  }
+}
+
+.ant-layout {
+  min-height: 100% !important;
 }
 
 .ant-input-affix-wrapper:focus,
@@ -27,11 +41,11 @@ html,body{
 }
 
 .ant-menu {
-    display: flex !important;
-    justify-content: center !important;
+  display: flex !important;
+  justify-content: center !important;
 }
 
 .ant-pagination {
-    display: flex !important;
-    justify-content: center !important; 
+  display: flex !important;
+  justify-content: center !important;
 }
