@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 
 import CardComponent from "../../cardComponent/CardComponent";
-import QuestionComponent from "../../questionComponent/QuestionComponent";
+import Question from "../../questionComponent/QuestionComponent";
 
 const ListRow = ({ item, itemType }) => {
   return (
@@ -9,7 +9,7 @@ const ListRow = ({ item, itemType }) => {
       {itemType == "card" ? (
         <CardComponent item={item} />
       ) : (
-        <QuestionComponent item={item} />
+        <Question item={item}  type={'question'}/>
       )}
     </Fragment>
   );

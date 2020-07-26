@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MainLayout from "../../../components/layouts/MainLayout";
 import { useRouter } from "next/router";
 import { useLazyQuery } from "@apollo/client";
-import * as lodashLib from 'lodash';
+import * as lodashLib from "lodash";
 
 import QuestionThread from "../../../components/questionThreadComponent/QuestionThreadComponent";
 import RelatedQuestions from "../../../components/relatedQuestionComponent/RelatedQuestionComponent";
@@ -10,7 +10,7 @@ import RelatedQuestions from "../../../components/relatedQuestionComponent/Relat
 import {
   findParentCommentAndDelete,
   buildingTreeCommentsOfParent,
-  addingFieldForArray
+  getParentItem
 } from "../../../helpers/ManagmentDataHelper";
 
 import { QUERY_GET_PARENT_TREE_QUESTIONS } from "../../../graphql/schemas/CommentSchema";
@@ -23,6 +23,8 @@ const QuestionThreadPage = () => {
   const [getTreeOfCommentsByParent, { data, loading, error }] = useLazyQuery(
     QUERY_GET_PARENT_TREE_QUESTIONS
   );
+  const [parentState, setParentState] = useState(null);
+  const [treeCommentsState, setTreeCommentsState] = useState([]);
 
   useEffect(() => {
     hanbleGetTreeOfCommentsByParent();
@@ -30,7 +32,10 @@ const QuestionThreadPage = () => {
 
   useEffect(() => {
     if (data != undefined) {
-      let extensibleArray = lodashLib.cloneDeep(data.getTreeCommentsByQuestionId);
+      let extensibleArray = lodashLib.cloneDeep(
+        data.getTreeCommentsByQuestionId
+      );
+      let parentElement = getParentItem(extensibleArray, questionId);
       let dataFilteredWithoutParent = findParentCommentAndDelete(
         extensibleArray,
         questionId
@@ -39,6 +44,10 @@ const QuestionThreadPage = () => {
         dataFilteredWithoutParent,
         questionId
       );
+      setParentState(parentElement);
+      setTreeCommentsState(treeBuilt);
+      console.log(parentElement);
+      console.log(treeBuilt);
     }
   }, [loading]);
 
@@ -49,9 +58,15 @@ const QuestionThreadPage = () => {
   return (
     <MainLayout>
       <div className="questionThreadPageContainer">
-        <div className="questionThread">
-          <QuestionThread />
-        </div>
+        {parentState && treeCommentsState.length > 0 && (
+          <div className="questionThread">
+            <QuestionThread
+              parentElement={parentState}
+              treeBuilt={treeCommentsState}
+            />
+          </div>
+        )}
+
         <div className="relatedQuestion">
           <RelatedQuestions />
         </div>

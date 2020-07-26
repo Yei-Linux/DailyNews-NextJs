@@ -1,12 +1,20 @@
 import React from "react";
 
+import QuestionsTree from "../questionThreadComponent/questionThreadHeaderComponent/questionTreeComponent/QuestionsTree";
+
 import { Comment, Avatar } from "antd";
 import { parseFormatDate } from "../../helpers/DateHelper";
-import { formatQuestionToUrlParam } from '../../helpers/ManagmentDataHelper';
+import { formatQuestionToUrlParam } from "../../helpers/ManagmentDataHelper";
+
+import './QuestionComponentStyle.scss';
 
 import Link from "next/link";
 
-const Question = ({ item }) => {
+const Question = ({ item, type }) => {
+  const handleAddComment = () => {
+    console.log("Launch modal");
+  }
+
   return (
     <Comment
       author={<span>{item.user.userName}</span>}
@@ -14,17 +22,31 @@ const Question = ({ item }) => {
         <span key="comment-nested-reply-to">
           Posted at: {parseFormatDate(item.createdAt)}
         </span>,
-        <span key="comment-nested-reply-to">{item.numberComments} replies</span>
+        type == "question" ? <span key="comment-nested-reply-to">{item.numberComments} replies</span> : 
+        <a className="addComment" onClick={handleAddComment}>Add comment</a>
       ]}
       avatar={
         <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
       }
       content={
-        <Link href="/question/[questionId]/[question]" as={`/question/${item._id}/${formatQuestionToUrlParam(item.comment)}`}>
-          {item.comment}
-        </Link>
+        type == "question" ? (
+          <Link
+            href="/question/[questionId]/[question]"
+            as={`/question/${item._id}/${formatQuestionToUrlParam(
+              item.comment
+            )}`}
+          >
+            {item.comment}
+          </Link>
+        ) : (
+          <p>{item.comment}</p>
+        )
       }
-    ></Comment>
+    >
+      {item.comments !== undefined && item.comments.length > 0 && (
+        <QuestionsTree commentsTree={item.comments} />
+      )}
+    </Comment>
   );
 };
 

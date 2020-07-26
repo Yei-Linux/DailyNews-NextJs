@@ -13,6 +13,7 @@ const RelatedQuestions = () => {
           numberComments: 4,
           comment: "Yeah , im ok"
         }}
+        type={'comment'}
       />
     </Card>
   );

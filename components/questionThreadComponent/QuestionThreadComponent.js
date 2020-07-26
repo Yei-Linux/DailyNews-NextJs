@@ -4,14 +4,21 @@ import QuestionThreadHeader from "./questionThreadHeaderComponent/QuestionThread
 import QuestionThreadComments from "./questionThreadComments/QuestionThreadComments";
 
 import { Card } from "antd";
+import './QuestionThreadHeaderStyle.scss';
 
-const QuestionThread = () => {
+const QuestionThread = ({ parentElement, treeBuilt }) => {
   return (
-    <Card title={<QuestionThreadHeader />} style={{ width: "100%" }}>
-      <div>
-        <p>I have a question, please a want to learn.</p>
+    <Card
+      title={<QuestionThreadHeader parentElement={parentElement} />}
+      style={{ width: "100%" }}
+    >
+      <div className="descriptionQuestionContainer">
+        <p className="description">{parentElement.description}</p>
       </div>
-      <QuestionThreadComments />
+      <QuestionThreadComments
+        treeBuilt={treeBuilt}
+        numberComments={parentElement.numberComments}
+      />
     </Card>
   );
 };

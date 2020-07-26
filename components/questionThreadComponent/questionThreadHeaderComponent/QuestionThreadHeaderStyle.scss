@@ -1,0 +1,17 @@
+.questionHeader {
+    display: flex;
+
+    .userContainer {
+        margin-right: 15px;
+    }   
+
+    .questionContainer {
+        .postDate {
+            font-size: 0.8em;
+            color: gray;
+        }
+        .tagsContainer {
+            margin-top: 10px;
+        }
+    }
+}

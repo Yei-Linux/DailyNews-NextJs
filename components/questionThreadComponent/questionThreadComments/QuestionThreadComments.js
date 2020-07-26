@@ -2,22 +2,16 @@ import React from "react";
 
 import { Comment, Avatar } from "antd";
 
-import Question from "../../questionComponent/QuestionComponent";
+import QuestionTree from '../questionThreadHeaderComponent/questionTreeComponent/QuestionsTree';
 import InputComment from "../../inputComment/InputComment";
 
-const QuestionThreadComments = () => {
+const QuestionThreadComments = ({ numberComments, treeBuilt }) => {
+
   return (
     <div>
-      <h3>2 comments</h3>
+      <h3>{numberComments} comments</h3>
       <div>
-        <Question
-          item={{
-            user: { userName: "jesus" },
-            createdAt: "2020-07-12T00:52:16.215+00:00",
-            numberComments: 4,
-            comment: "Yeah , im ok"
-          }}
-        />
+        <QuestionTree commentsTree={treeBuilt}/>
 
         <Comment
           avatar={

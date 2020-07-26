@@ -12,6 +12,10 @@ export const buildingTreeCommentsOfParent = (treeContentArray,parentQuestionId) 
     return childrenArrayFiltered;
 }
 
+export const getParentItem = (treeContentArray,parentQuestionId) => {
+    return treeContentArray.filter( item => item._id == parentQuestionId )[0];
+}
+
 export const findParentCommentAndDelete = (treeContentArray,parentQuestionId) => {
     return treeContentArray.filter( item => item._id != parentQuestionId );
 }
