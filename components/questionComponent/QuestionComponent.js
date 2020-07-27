@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ Fragment } from "react";
 
 import QuestionsTree from "../questionThreadComponent/questionThreadHeaderComponent/questionTreeComponent/QuestionsTree";
 
@@ -6,14 +6,15 @@ import { Comment, Avatar } from "antd";
 import { parseFormatDate } from "../../helpers/DateHelper";
 import { formatQuestionToUrlParam } from "../../helpers/ManagmentDataHelper";
 
-import './QuestionComponentStyle.scss';
+import "./QuestionComponentStyle.scss";
 
+import { Tag } from "antd";
 import Link from "next/link";
 
 const Question = ({ item, type }) => {
   const handleAddComment = () => {
     console.log("Launch modal");
-  }
+  };
 
   return (
     <Comment
@@ -22,22 +23,36 @@ const Question = ({ item, type }) => {
         <span key="comment-nested-reply-to">
           Posted at: {parseFormatDate(item.createdAt)}
         </span>,
-        type == "question" ? <span key="comment-nested-reply-to">{item.numberComments} replies</span> : 
-        <a className="addComment" onClick={handleAddComment}>Add comment</a>
+        type == "question" ? (
+          <span key="comment-nested-reply-to">
+            {item.numberComments} replies
+          </span>
+        ) : (
+          <a className="addComment" onClick={handleAddComment}>
+            Add comment
+          </a>
+        )
       ]}
       avatar={
         <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
       }
       content={
         type == "question" ? (
-          <Link
-            href="/question/[questionId]/[question]"
-            as={`/question/${item._id}/${formatQuestionToUrlParam(
-              item.comment
-            )}`}
-          >
-            {item.comment}
-          </Link>
+          <Fragment>
+            <Link
+              href="/question/[questionId]/[question]"
+              as={`/question/${item._id}/${formatQuestionToUrlParam(
+                item.comment
+              )}`}
+            >
+              {item.comment}
+            </Link>
+            <div>
+              { item.tags && item.tags.length > 0 && item.tags.map(tag => (
+                <Tag color={tag.color}>{tag.name}</Tag>
+              ))}
+            </div>
+          </Fragment>
         ) : (
           <p>{item.comment}</p>
         )

@@ -10,6 +10,10 @@ export const QUERY_GET_QUESTIONS = gql`
         email
         userName
       }
+      tags {
+        name
+        color
+      }
       numberComments
       createdAt
       parent
@@ -26,6 +30,10 @@ export const QUERY_GET_PARENT_TREE_QUESTIONS = gql`
       user {
         email
         userName
+      }
+      tags {
+        name
+        color
       }
       createdAt
       parent

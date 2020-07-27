@@ -19,10 +19,11 @@ const QuestionThreadHeader = ({ parentElement }) => {
           {parseFormatDate(parentElement.createdAt)}
         </p>
         <div className="tagsContainer">
-          <Tag color="magenta">magenta</Tag>
-          <Tag color="red">red</Tag>
-          <Tag color="volcano">volcano</Tag>
-          <Tag color="orange">orange</Tag>
+          {
+            parentElement.tags.map( tag=>(
+              <Tag color={tag.color}>{tag.name}</Tag>
+            ))
+          }
         </div>
       </div>
     </div>
