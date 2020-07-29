@@ -1,3 +1,5 @@
+import * as lodashLib from "lodash";
+
 export const formatQuestionToUrlParam = question => {
     return question.toLowerCase().replace(/ /g,'-').replace(/[?]/g,'').replace(/[¿]/g,'');
 }
@@ -18,4 +20,21 @@ export const getParentItem = (treeContentArray,parentQuestionId) => {
 
 export const findParentCommentAndDelete = (treeContentArray,parentQuestionId) => {
     return treeContentArray.filter( item => item._id != parentQuestionId );
+}
+
+export const buildingNestedComments = (data,questionId) => {
+    let extensibleArray = lodashLib.cloneDeep(
+        data.getTreeCommentsByQuestionId
+    );
+    let parentElement = getParentItem(extensibleArray, questionId);
+    let dataFilteredWithoutParent = findParentCommentAndDelete(
+        extensibleArray,
+        questionId
+    );
+    let treeBuilt = buildingTreeCommentsOfParent(
+        dataFilteredWithoutParent,
+        questionId
+    );
+
+    return {parentElement,treeBuilt}
 }

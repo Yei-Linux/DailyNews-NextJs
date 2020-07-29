@@ -17,7 +17,7 @@ const Question = ({ item, type }) => {
   };
 
   return (
-    <Comment
+    <Comment 
       author={<span>{item.user.userName}</span>}
       actions={[
         <span key="comment-nested-reply-to">
@@ -48,8 +48,8 @@ const Question = ({ item, type }) => {
               {item.comment}
             </Link>
             <div>
-              { item.tags && item.tags.length > 0 && item.tags.map(tag => (
-                <Tag color={tag.color}>{tag.name}</Tag>
+              { item.tags && item.tags.length > 0 && item.tags.map((tag,index) => (
+                <Tag key={index} color={tag.color}>{tag.name}</Tag>
               ))}
             </div>
           </Fragment>

@@ -41,3 +41,11 @@ export const QUERY_GET_PARENT_TREE_QUESTIONS = gql`
     }
   }
 `;
+
+export const QUERY_TOTAL_FIRST_CHILDREN = gql`
+  query getFirstLevelChildrenByParentId($input: SearchInput) {
+    getFirstLevelChildrenByParentId(input: $input) {
+      total
+    }
+  }
+`;

@@ -1,17 +1,49 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import { Comment, Avatar } from "antd";
+import { Comment, Avatar, Button } from "antd";
 
-import QuestionTree from '../questionThreadHeaderComponent/questionTreeComponent/QuestionsTree';
+import QuestionTree from "../questionThreadHeaderComponent/questionTreeComponent/QuestionsTree";
 import InputComment from "../../inputComment/InputComment";
 
-const QuestionThreadComments = ({ numberComments, treeBuilt }) => {
+import usePrevious from "../../../hooks/usePrevious";
+import useNestedComments from "../../../hooks/useNestedComments";
+
+const QuestionThreadComments = () => {
+  const {
+    parentState,
+    treeCommentsState,
+    skip,
+    totalFirstLevelChildrenState,
+    handleGetAndBuildingComments,
+    updateSetSkipState
+  } = useNestedComments();
+  const prevSkip = usePrevious(skip);
+
+  const handleLoadMoreComments = async () => {
+    updateSetSkipState(skip + 1);
+  };
+
+  useEffect(() => {
+    validateSkipIsDefinedAndPrevCurrentNotEquals() && fetchComments();
+  }, [skip]);
+
+  const validateSkipIsDefinedAndPrevCurrentNotEquals = () => {
+    return prevSkip != undefined && prevSkip !== skip;
+  };
+
+  const fetchComments = async () => {
+    await handleGetAndBuildingComments();
+  };
+
+  const isTotalEqualsToCurrentLengthState = () => {
+    return totalFirstLevelChildrenState == treeCommentsState.length;
+  };
 
   return (
     <div>
-      <h3>{numberComments} comments</h3>
+      <h3>{parentState.numberComments} comments</h3>
       <div>
-        <QuestionTree commentsTree={treeBuilt}/>
+        <QuestionTree commentsTree={treeCommentsState} />
 
         <Comment
           avatar={
@@ -22,6 +54,12 @@ const QuestionThreadComments = ({ numberComments, treeBuilt }) => {
           }
           content={<InputComment />}
         />
+
+        {!isTotalEqualsToCurrentLengthState() && (
+          <Button type="primary" onClick={handleLoadMoreComments}>
+            Load More Comments
+          </Button>
+        )}
       </div>
     </div>
   );

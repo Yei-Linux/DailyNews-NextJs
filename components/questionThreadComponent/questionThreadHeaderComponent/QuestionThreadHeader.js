@@ -20,8 +20,8 @@ const QuestionThreadHeader = ({ parentElement }) => {
         </p>
         <div className="tagsContainer">
           {
-            parentElement.tags.map( tag=>(
-              <Tag color={tag.color}>{tag.name}</Tag>
+            parentElement.tags.map( (tag,index)=>(
+              <Tag key={index} color={tag.color}>{tag.name}</Tag>
             ))
           }
         </div>

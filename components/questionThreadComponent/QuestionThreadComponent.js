@@ -6,19 +6,21 @@ import QuestionThreadComments from "./questionThreadComments/QuestionThreadComme
 import { Card } from "antd";
 import './QuestionThreadHeaderStyle.scss';
 
-const QuestionThread = ({ parentElement, treeBuilt }) => {
+import useNestedComments from '../../hooks/useNestedComments';
+
+const QuestionThread = () => {
+  const { parentState } = useNestedComments();
+
   return (
     <Card
-      title={<QuestionThreadHeader parentElement={parentElement} />}
+      title={<QuestionThreadHeader parentElement={parentState} />}
       style={{ width: "100%" }}
     >
       <div className="descriptionQuestionContainer">
-        <p className="description">{parentElement.description}</p>
+        <p className="description">{parentState.description}</p>
       </div>
-      <QuestionThreadComments
-        treeBuilt={treeBuilt}
-        numberComments={parentElement.numberComments}
-      />
+      <QuestionThreadComments/>
+      
     </Card>
   );
 };
