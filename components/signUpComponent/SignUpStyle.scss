@@ -1,0 +1,21 @@
+.buttonSignIn {
+  width: 110px;
+  border-radius: 0.4em;
+  height: 40px;
+  background: #4b5d67;
+  border: 1px solid #4b5d67;
+  &:hover {
+    background: #858888;
+    border: 1px solid #4f8a8b;
+  }
+
+  &:focus {
+    background: #4f8a8b;
+    border: 1px solid #4f8a8b;
+  }
+}
+
+.ant-input-affix-wrapper {
+  height: 40px;
+  border-radius: 0.8em;
+}

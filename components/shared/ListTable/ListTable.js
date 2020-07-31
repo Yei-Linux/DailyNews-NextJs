@@ -32,7 +32,7 @@ const ListTable = ({ pageSize, model, queryTotalRows, queryGetRows, nameQuery, i
 
   return (
     <Fragment>
-      {data && (
+      { dataRows && data && data[nameQuery] && (
         <Fragment>
           <List
             itemLayout="vertical"

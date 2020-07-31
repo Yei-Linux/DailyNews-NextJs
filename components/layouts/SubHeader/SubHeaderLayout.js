@@ -10,13 +10,13 @@ const SubHeaderLayout = () => {
     <div className="subHeaderContainer">
       <Menu mode="horizontal">
         <Menu.Item key="1">
-          <Link href="/">News</Link>
+          <Link href="/"><a>News</a></Link>
         </Menu.Item>
         <Menu.Item key="2">
-          <Link href="/ask">Ask</Link>
+          <Link href="/ask"><a>Ask</a></Link>
         </Menu.Item>
         <Menu.Item key="3">
-          <Link href="/job">Job</Link>
+          <Link href="/job"><a>Job</a></Link>
         </Menu.Item>
       </Menu>
     </div>

@@ -45,7 +45,7 @@ const Question = ({ item, type }) => {
                 item.comment
               )}`}
             >
-              {item.comment}
+              <a>{item.comment}</a>
             </Link>
             <div>
               { item.tags && item.tags.length > 0 && item.tags.map((tag,index) => (
