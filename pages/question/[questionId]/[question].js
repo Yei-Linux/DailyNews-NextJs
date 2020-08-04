@@ -37,7 +37,10 @@ const QuestionThreadPage = () => {
   }
 
   return (
-    <MainLayout>
+    <MainLayout customStyles={{
+      padding: "0 50px",
+      height: "100%"
+    }}>
       <div className="questionThreadPageContainer">
         {parentState && treeCommentsState.length > 0 && (
           <div className="questionThread">

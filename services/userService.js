@@ -1,4 +1,9 @@
-import { MUTATION_INSERT_USER , MUTATION_AUTH_USER } from "../graphql/schemas/UserSchema";
+import {
+  MUTATION_INSERT_USER,
+  MUTATION_AUTH_USER
+} from "../graphql/schemas/UserSchema";
+
+import { getErrors } from "../helpers/ErrorHelper";
 
 export const insertUser = async (client, email, userName, password) => {
   const { data } = await client.mutate({
@@ -9,9 +14,12 @@ export const insertUser = async (client, email, userName, password) => {
 };
 
 export const authUser = async (client, email, password) => {
-  const { data } = await client.mutate({
+  const { data , errors } = await client.mutate({
     mutation: MUTATION_AUTH_USER,
-    variables: { input: { email, password } }
+    variables: { input: { email, password } },
+    errorPolicy: 'all'
   });
-  return data;
+
+  let newErrors = getErrors(errors);
+  return { data , newErrors };
 };

@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import { Layout } from "antd";
-import { useRouter } from "next/router";
 
 import Head from "./Head/HeadLayout";
 import HeaderLayout from "./Header/HeaderLayout";
@@ -8,24 +7,26 @@ import ContentLayout from "./Content/ContentLayout";
 import FooterLayout from "./Footer/FooterLayout";
 import SubHeaderLayout from "../layouts/SubHeader/SubHeaderLayout";
 
-import { SignContainer } from "./layoutsStyledComponents"; 
+import CustomSpinner from "../shared/CustomSpinner/CustomSpinner";
 
-const MainLayout = ({ children }) => {
-  const router = useRouter();
+const { Content } = Layout;
+
+const MainLayout = ({ children , customStyles}) => {
   return (
     <Fragment>
       <Head />
 
-      {router.pathname === "/sign-in" || router.pathname === "/sign-up" ? (
-          <SignContainer>{children}</SignContainer>
-      ) : (
-        <Layout className="layout">
-          <HeaderLayout />
-          <SubHeaderLayout />
-          <ContentLayout children={children} />
-          <FooterLayout />
-        </Layout>
-      )}
+      <Layout className="layout">
+        <HeaderLayout />
+        <SubHeaderLayout />
+        <Content
+          style={{ padding: "0 50px", height: "100%", position: "relative" }}
+        >
+          <ContentLayout customStyles={customStyles}>{children}</ContentLayout>
+          <CustomSpinner />
+        </Content>
+        <FooterLayout />
+      </Layout>
     </Fragment>
   );
 };

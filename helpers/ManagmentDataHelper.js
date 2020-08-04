@@ -1,4 +1,5 @@
 import * as lodashLib from "lodash";
+import Cookie from "js-cookie";
 
 export const formatQuestionToUrlParam = question => {
     return question.toLowerCase().replace(/ /g,'-').replace(/[?]/g,'').replace(/[¿]/g,'');
@@ -37,4 +38,14 @@ export const buildingNestedComments = (data,questionId) => {
     );
 
     return {parentElement,treeBuilt}
+}
+
+export const getFieldOfUserInfo = (field) => {
+    return JSON.parse(Cookie.get('user_info'))[field];
+}
+
+export const isLogging = () => {
+    if(Cookie.get('jwt') != undefined || Cookie.get('jwt') != null){
+        return true;
+    }
 }

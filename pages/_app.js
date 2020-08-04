@@ -4,13 +4,21 @@ import "../styles/styles.global.scss";
 import { ApolloProvider } from "@apollo/client";
 import client from "../config/apollo";
 import CommentState from "../context/comments/commentState";
+import SpinnerState from "../context/spinner/spinnerState";
+import AuthenticationState from "../context/authentication/authenticationState";
 
-export default function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, pageProps }) => {
   return (
     <ApolloProvider client={client}>
-      <CommentState>
-        <Component {...pageProps} />
-      </CommentState>
+      <AuthenticationState>
+        <SpinnerState>
+          <CommentState>
+            <Component {...pageProps} />
+          </CommentState>
+        </SpinnerState>
+      </AuthenticationState>
     </ApolloProvider>
   );
 }
+
+export default MyApp;

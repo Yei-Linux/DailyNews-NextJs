@@ -1,13 +1,15 @@
 import React from "react";
-import { Layout } from 'antd';
+import { Layout } from "antd";
 
 const { Content } = Layout;
 
-const ContentLayout = ({children}) => {
+const ContentLayout = ({ children, customStyles }) => {
   return (
-    <Content style={{ padding: "0 50px" }}>
-      <div className="site-layout-content">
-          {children}
+    <Content
+      style={customStyles}
+    >
+      <div className="site-layout-content" style={{ height: "100%" }}>
+        {children}
       </div>
     </Content>
   );

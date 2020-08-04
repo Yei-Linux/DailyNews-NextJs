@@ -1,50 +1,73 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState, useContext, Fragment } from "react";
 import { List, Pagination } from "antd";
-import { useLazyQuery } from "@apollo/client";
+import { useApolloClient } from "@apollo/client";
 
+import CustomHeaderTitle from "../../../components/shared/CustomHeaderTitle/CustomHeaderTitle";
 import ListRow from "../ListRow/ListRow";
+import contextSpinner from "../../../context/spinner/spinnerContext";
+import { getRows, getTotalRows } from "../../../services/dynamicService";
 
-const ListTable = ({ pageSize, model, queryTotalRows, queryGetRows, nameQuery, itemType }) => {
-  const [pageState,setPageState] = useState(1);
-  const [ 
-    getTotalRowsState,
-    { data: dataRows, loading: loadingRows, error: errorRows }
-  ] = useLazyQuery(queryTotalRows);
-  const [getRows, { data, loading, error }] = useLazyQuery(queryGetRows);
+const ListTable = ({
+  pageSize,
+  model,
+  queryTotalRows,
+  queryGetRows,
+  nameQuery,
+  itemType,
+  title,
+  hasButton,
+  buttonTitle
+}) => {
+  const [pageState, setPageState] = useState(1);
+  const [rows, setRows] = useState(null);
+  const [totalRows, setTotalRows] = useState(null);
+  const { setLoading } = useContext(contextSpinner);
+  const client = useApolloClient();
 
   useEffect(() => {
-    handleGetTotalRows(model);
-    handleGetRows(1, pageSize);
+    setLoading(true);
+    setTimeout(async () => {
+      handleGetTotalRows(model);
+      handleGetRows(1, pageSize);
+      setLoading(false);
+    }, 1000);
   }, []);
 
-  const handlePagination = page => {
-    handleGetRows(page, pageSize);
-    setPageState(page);
+  const handlePagination = async page => {
+    setLoading(true);
+    setTimeout(async () => {
+      await handleGetRows(page, pageSize);
+      setPageState(page);
+      setLoading(false);
+    }, 1000);
   };
 
-  const handleGetRows = (page, limit) => {
-    getRows({ variables: { input: { page, limit } } });
+  const handleGetRows = async (page, limit) => {
+    const data = await getRows(client, queryGetRows, page, limit);
+    setRows(data);
   };
 
-  const handleGetTotalRows = model => {
-    getTotalRowsState({ variables: { input: { model } } });
+  const handleGetTotalRows = async model => {
+    const data = await getTotalRows(client, queryTotalRows, model);
+    setTotalRows(data);
   };
 
   return (
     <Fragment>
-      { dataRows && data && data[nameQuery] && (
+      <CustomHeaderTitle title={title} hasButton={hasButton} buttonTitle={buttonTitle}/>
+      {totalRows && rows && rows[nameQuery] && (
         <Fragment>
           <List
             itemLayout="vertical"
             size="large"
-            dataSource={data[nameQuery]}
-            renderItem={item => <ListRow item={item} itemType={itemType}/>}
+            dataSource={rows[nameQuery]}
+            renderItem={item => <ListRow item={item} itemType={itemType} />}
           />
           <Pagination
             defaultCurrent={pageState}
             defaultPageSize={pageSize}
             onChange={handlePagination}
-            total={dataRows["getTotalRows"]["size"]}
+            total={totalRows["getTotalRows"]["size"]}
           />
         </Fragment>
       )}

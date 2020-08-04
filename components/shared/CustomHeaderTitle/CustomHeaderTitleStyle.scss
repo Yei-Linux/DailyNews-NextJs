@@ -1,0 +1,23 @@
+.title {
+  font-family: "Liu Jian Mao Cao";
+  font-style: "cursive";
+  font-size: "3em";
+}
+.button {
+  width: 110px;
+  border-radius: 0.4em;
+  height: 40px;
+  margin-right: 10px;
+
+  background: whitesmoke;
+  border: 1px solid whitesmoke;
+  &:hover {
+    background: whitesmoke;
+    border: 1px solid whitesmoke;
+  }
+
+  &:focus {
+    background: whitesmoke;
+    border: 1px solid whitesmoke;
+  }
+}

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { Layout, Input, Button } from "antd";
 
 import SignInComponent from "../../signInComponent/SignInComponent";
@@ -6,12 +6,19 @@ import SignUpComponent from "../../signUpComponent/SignUpComponent";
 
 import useCustomModal from "../../../hooks/useCustomModal";
 import CustomModal from "../../shared/CustomModal/CustomModal";
+
+import CustomDropDown from '../../shared/CustomDropDown/CustomDropDown';
+import { getFieldOfUserInfo } from '../../../helpers/ManagmentDataHelper';
+
+import contextAuthentication from "../../../context/authentication/authenticationContext";
+
 import "./HeaderStyle.scss";
 
 const { Search } = Input;
 const { Header } = Layout;
 
 const HeaderLayout = () => {
+  const { isLogging } = useContext(contextAuthentication);
   const {
     isVisible: visibleModal1,
     toggleModal: toggleModal1
@@ -33,12 +40,18 @@ const HeaderLayout = () => {
             style={{ width: 200 }}
           />
           <div>
-            <Button className="buttonSignIn" onClick={toggleModal1}>
-              Sign In
-            </Button>
-            <Button className="buttonSignIn" onClick={toggleModal2}>
-              Sign Up
-            </Button>
+            {isLogging ? (
+              <CustomDropDown userName={getFieldOfUserInfo('displayName')} email={getFieldOfUserInfo('emailValue')}/>
+            ) : (
+              <Fragment>
+                <Button className="buttonSignIn" onClick={toggleModal1}>
+                  Sign In
+                </Button>
+                <Button className="buttonSignIn" onClick={toggleModal2}>
+                  Sign Up
+                </Button>
+              </Fragment>
+            )}
           </div>
         </div>
       </Header>
@@ -48,7 +61,7 @@ const HeaderLayout = () => {
         isVisible={visibleModal1}
         toggleModal={toggleModal1}
       >
-        <SignInComponent />
+        <SignInComponent toggleModal={toggleModal1}/>
       </CustomModal>
       <CustomModal
         title={"Sign Up"}

@@ -6,7 +6,10 @@ import { QUERY_GET_TOTAL_ROWS_OF_DOCUMENT } from "../graphql/schemas/DynamicSche
 
 export default function Home() {
   return (
-    <MainLayout>
+    <MainLayout customStyles={{
+      padding: "0 50px",
+      height: "100%"
+    }}>
       <div className="listContainer">
         <ListTable
           pageSize={5}
@@ -15,6 +18,7 @@ export default function Home() {
           queryGetRows={QUERY_GET_NEWS}
           nameQuery={"getNews"}
           itemType={"card"}
+          title={"Tech News"} hasButton={false}
         />
       </div>
     </MainLayout>

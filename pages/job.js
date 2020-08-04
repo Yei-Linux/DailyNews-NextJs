@@ -8,7 +8,10 @@ import { QUERY_GET_TOTAL_ROWS_OF_DOCUMENT } from "../graphql/schemas/DynamicSche
 
 const Job = () => {
     return (
-        <MainLayout>
+        <MainLayout customStyles={{
+            padding: "0 50px",
+            height: "100%"
+          }}>
             <div className="listContainer">
                 <ListTable
                 pageSize={5}
@@ -17,6 +20,7 @@ const Job = () => {
                 queryGetRows={QUERY_GET_JOBS}
                 nameQuery={"getJobs"}
                 itemType={"card"}
+                title={"Tech Jobs"} hasButton={false}
                 />
             </div>
         </MainLayout>
