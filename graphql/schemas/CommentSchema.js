@@ -49,3 +49,19 @@ export const QUERY_TOTAL_FIRST_CHILDREN = gql`
     }
   }
 `;
+
+export const MUTATION_INSERT_QUESTION = gql`
+  mutation insertComment($input: CommentInput) {
+    insertComment(input: $input) {
+      _id
+    }
+  }
+`;
+
+export const MUTATION_INSERT_QUESTION_TAGS = gql`
+  mutation insertQuestionTag($input: QuestionTagInput) {
+    insertQuestionTag(input: $input) {
+      msg
+    }
+  }
+`;

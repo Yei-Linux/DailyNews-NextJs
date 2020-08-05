@@ -49,3 +49,13 @@ export const isLogging = () => {
         return true;
     }
 }
+
+export const getColorOrValue = (value,choose) => {
+    return value.split('-')[choose];
+}
+
+export const parseTagArray = (tags) => {
+    return tags.map(tag => {
+        return { label: tag['name'], value: (`${tag['color']}-${tag['_id']}`) }
+    });
+}

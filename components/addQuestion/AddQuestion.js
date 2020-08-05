@@ -1,41 +1,34 @@
-import React, { useState, Fragment } from "react";
-import { Form, Input, Button, Select } from "antd";
+import React, { useState, Fragment, useContext } from "react";
+import { Form, Input, Button, Select, Tag } from "antd";
 
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import {
-  ButtonContainer
-} from "./SignInStyled";
+import { ButtonContainer } from "./AddQuestionStyled";
+import { getColorOrValue, getFieldOfUserInfo } from "../../helpers/ManagmentDataHelper";
 
-const { Option } = Select;
+import contextTag from "../../context/tag/tagContext";
+import CustomTagRender from "../shared/CustomTagRender/CustomTagRender";
+
+import { insertQuestion, insertQuestionTags } from "../../services/commentsService";
+import { useApolloClient } from "@apollo/client";
 
 const AddQuestion = ({ toggleModal }) => {
+  const client = useApolloClient();
+  const { tags } = useContext(contextTag);
   const [isLoading, setLoading] = useState(false);
   const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 }
   };
-  const [children, setChildren] = useState([
-    { label: "Python", value: "1" },
-    { label: "Java", value: "2" }
-  ]);
 
   const handleAddQuestion = async ({ question, description, tags }) => {
-    /*setLoading(true);
-
-    let { data, newErrors } = await authUser(client, email, password);
-    if (newErrors) {
-      setLoading(false);
-      setInputError(newErrors);
-      return;
-    }
-
-    setLoading(false);
-    toggleModal();
-    */
+    let response = await insertQuestion(client,question,description,getFieldOfUserInfo('id'));
+    let responseQuestionTags = await insertQuestionTags(client,response['insertComment']['_id'],handlePrepareTagsData(tags));
   };
 
-  const handleChange = event => {
-    console.og(event);
+  const handlePrepareTagsData = tags => {
+    return tags.map(tag => {
+      return {_id : ObjectID(getColorOrValue(tag, 1))};
+    } );  
   };
 
   return (
@@ -69,16 +62,11 @@ const AddQuestion = ({ toggleModal }) => {
         <Form.Item name="tags">
           <Select
             mode="multiple"
+            tagRender={CustomTagRender}
             style={{ width: "100%" }}
             placeholder="Select programming languages"
-            defaultValue={[
-              { label: "Python", value: "1" },
-              { label: "Java", value: "2" }
-            ]}
-            onChange={handleChange}
-          >
-            {children}
-          </Select>
+            options={tags}
+          />
         </Form.Item>
 
         <ButtonContainer>

@@ -6,4 +6,5 @@ export const SET_QUESTION_ID = 'SET_QUESTION_ID'
 export const SET_TOTAL_FIRST_LEVEL = 'SET_TOTAL_FIRST_LEVEL'
 export const SET_LOADING = 'SET_LOADING'
 export const SET_IS_LOGGING = 'SET_IS_LOGGING'
+export const SET_TAGS = 'SET_TAGS'
 

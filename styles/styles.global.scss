@@ -54,3 +54,19 @@ body {
 .ant-form-item {
   justify-content: center;
 }
+
+.ant-select-selector {
+  border-radius: 0.4em !important;
+  height: 40px;
+  background: #4b5d67;
+  border: 1px solid #4b5d67; 
+  &:hover {
+    background: white;
+    border: 1px solid #4f8a8b;
+  };
+
+  &:focus {
+    background: white;
+    border: 1px solid #4f8a8b;
+  };
+}
