@@ -30,7 +30,7 @@ const CustomHeaderTitle = ({ title, buttonTitle, hasButton }) => {
         isVisible={isVisible}
         toggleModal={toggleModal}
       >
-        <AddQuestion toggleModal={toggleModal} />
+        <AddQuestion toggleModal={toggleModal}/>
       </CustomModal>
     </Fragment>
   );

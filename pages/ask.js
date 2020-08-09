@@ -33,7 +33,7 @@ const Ask = () => {
         {isLogging ? (
           <ListTable
             pageSize={5}
-            model={"Comment"}
+            model={"Comment"} 
             queryTotalRows={QUERY_GET_TOTAL_ROWS_OF_DOCUMENT}
             queryGetRows={QUERY_GET_QUESTIONS}
             nameQuery={"getQuestions"}

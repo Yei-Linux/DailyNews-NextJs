@@ -1,5 +1,6 @@
 import React, { useState, Fragment, useContext } from "react";
 import { Form, Input, Button, Select, Tag } from "antd";
+import { useRouter } from 'next/router'
 
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { ButtonContainer } from "./AddQuestionStyled";
@@ -10,8 +11,10 @@ import CustomTagRender from "../shared/CustomTagRender/CustomTagRender";
 
 import { insertQuestion, insertQuestionTags } from "../../services/commentsService";
 import { useApolloClient } from "@apollo/client";
+import { QUERY_GET_TOTAL_ROWS_OF_DOCUMENT } from "../../graphql/schemas/DynamicSchema";
 
 const AddQuestion = ({ toggleModal }) => {
+  const router = useRouter();
   const client = useApolloClient();
   const { tags } = useContext(contextTag);
   const [isLoading, setLoading] = useState(false);
@@ -23,11 +26,13 @@ const AddQuestion = ({ toggleModal }) => {
   const handleAddQuestion = async ({ question, description, tags }) => {
     let response = await insertQuestion(client,question,description,getFieldOfUserInfo('id'));
     let responseQuestionTags = await insertQuestionTags(client,response['insertComment']['_id'],handlePrepareTagsData(tags));
+    toggleModal(); 
+    router.push("/");
   };
 
   const handlePrepareTagsData = tags => {
     return tags.map(tag => {
-      return {_id : ObjectID(getColorOrValue(tag, 1))};
+      return {_id : getColorOrValue(tag, 1)};
     } );  
   };
 

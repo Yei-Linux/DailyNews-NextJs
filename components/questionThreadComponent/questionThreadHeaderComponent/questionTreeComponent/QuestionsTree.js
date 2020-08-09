@@ -10,7 +10,7 @@ const QuestionsTree = ({ commentsTree }) => {
           <Question key={comment._id} item={comment} type={'comment'}/>
         ))}
     </Fragment>
-  );
+  ); 
 };
 
 export default QuestionsTree;

@@ -25,12 +25,7 @@ const ListTable = ({
   const client = useApolloClient();
 
   useEffect(() => {
-    setLoading(true);
-    setTimeout(async () => {
-      handleGetTotalRows(model);
-      handleGetRows(1, pageSize);
-      setLoading(false);
-    }, 1000);
+    handleLoadingData();
   }, []);
 
   const handlePagination = async page => {
@@ -50,7 +45,16 @@ const ListTable = ({
   const handleGetTotalRows = async model => {
     const data = await getTotalRows(client, queryTotalRows, model);
     setTotalRows(data);
-  };
+  }; 
+
+  const handleLoadingData = async () => {
+    setLoading(true);
+    setTimeout(async () => {
+      await handleGetTotalRows(model);
+      await handleGetRows(1, pageSize);
+      setLoading(false);
+    }, 1000);
+  }
 
   return (
     <Fragment>

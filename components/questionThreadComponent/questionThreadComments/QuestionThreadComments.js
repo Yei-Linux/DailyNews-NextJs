@@ -1,12 +1,16 @@
 import React, { useEffect } from "react";
 
 import { Comment, Avatar, Button } from "antd";
+import { useApolloClient } from "@apollo/client";
 
 import QuestionTree from "../questionThreadHeaderComponent/questionTreeComponent/QuestionsTree";
 import InputComment from "../../inputComment/InputComment";
 
 import usePrevious from "../../../hooks/usePrevious";
 import useNestedComments from "../../../hooks/useNestedComments";
+
+import { insertQuestion } from "../../../services/commentsService";
+import { getFieldOfUserInfo } from "../../../helpers/ManagmentDataHelper";
 
 const QuestionThreadComments = () => {
   const {
@@ -17,18 +21,24 @@ const QuestionThreadComments = () => {
     handleGetAndBuildingComments,
     updateSetSkipState
   } = useNestedComments();
+  const client = useApolloClient();
   const prevSkip = usePrevious(skip);
-
-  const handleLoadMoreComments = async () => {
-    updateSetSkipState(skip + 1);
-  };
 
   useEffect(() => {
     validateSkipIsDefinedAndPrevCurrentNotEquals() && fetchComments();
   }, [skip]);
 
+  const handleLoadMoreComments = async () => {
+    updateSetSkipState(skip + 1);
+  };
+
   const validateSkipIsDefinedAndPrevCurrentNotEquals = () => {
     return prevSkip != undefined && prevSkip !== skip;
+  };
+
+  const handleAddComment = async (question) => {
+      let response = await insertQuestion(client,question,"",getFieldOfUserInfo('id'),parentState._id);
+      console.log(response);
   };
 
   const fetchComments = async () => {
@@ -52,10 +62,10 @@ const QuestionThreadComments = () => {
               alt="Han Solo"
             />
           }
-          content={<InputComment />}
+          content={<InputComment  handleAddComment={handleAddComment}/>}
         />
 
-        {!isTotalEqualsToCurrentLengthState() && (
+        {treeCommentsState.length > 0 && !isTotalEqualsToCurrentLengthState() && (
           <Button type="primary" onClick={handleLoadMoreComments}>
             Load More Comments
           </Button>

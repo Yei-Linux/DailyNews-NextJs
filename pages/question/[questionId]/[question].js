@@ -42,7 +42,7 @@ const QuestionThreadPage = () => {
       height: "100%"
     }}>
       <div className="questionThreadPageContainer">
-        {parentState && treeCommentsState.length > 0 && (
+        {parentState && (
           <div className="questionThread">
             <QuestionThread/>
           </div>
